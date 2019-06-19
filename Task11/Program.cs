@@ -10,31 +10,38 @@ namespace Task11
     {
         static Random rnd = new Random();
         static int length;
-        static int[] decoded, encoded;
+        static int[] sequence, decoded, encoded;
         static void Main(string[] args)
         {
             bool end = false;
             do
             {
                 CreateRnd();
-                Print(decoded, false);
-                Encoder();
+                Print(sequence, false);
+                Encoder(sequence);
                 Print(encoded, true);
-                Decoder();
+                Decoder(encoded);
                 Print(decoded, false);
+                Console.WriteLine();
+                CreateRnd();
+                Print(sequence, true);
+                Decoder(sequence);
+                Print(decoded, false);
+                Encoder(decoded);
+                Print(encoded, true);
                 end = CheckKey();
             } while (!end);
             
         }
 
-        //форимрование последовательности
+        //формирование последовательности
         public static void CreateRnd()
         {
             length = rnd.Next(4, 26);
-            decoded = new int[length];
+            sequence = new int[length];
             for (int i = 0; i < length; i++)
             {
-                decoded[i] = rnd.Next(2);
+                sequence[i] = rnd.Next(2);
             }
         }
         //печать последовательности
@@ -51,24 +58,24 @@ namespace Task11
             Console.WriteLine();
         }
         //шифрование последовательности
-        public static void Encoder()
+        public static void Encoder(int[] arr)
         {
-            encoded = new int[decoded.Length];
-            encoded[0] = decoded[0];
+            encoded = new int[arr.Length];
+            encoded[0] = arr[0];
             for (int i = 1; i < encoded.Length; i++)
             {
-                if (decoded[i] == decoded[i - 1]) encoded[i] = 1;
+                if (arr[i] == arr[i - 1]) encoded[i] = 1;
                 else encoded[i] = 0;
             }
         }
         //расшифровка последовательности
-        public static void Decoder()
+        public static void Decoder(int[] arr)
         {
-            decoded = new int[encoded.Length];
-            decoded[0] = encoded[0];
+            decoded = new int[arr.Length];
+            decoded[0] = arr[0];
             for (int i = 1; i < decoded.Length; i++)
             {
-                if (encoded[i] == 1) decoded[i] = decoded[i - 1];
+                if (arr[i] == 1) decoded[i] = decoded[i - 1];
                 else if (decoded[i - 1] == 1) decoded[i] = 0;
                 else decoded[i] = 1;
             }
